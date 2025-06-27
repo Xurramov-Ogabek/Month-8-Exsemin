@@ -1,12 +1,18 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, IsIn, IsOptional } from 'class-validator';
 
 export class RegisterDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Ism majburiy maydon' })
   name: string;
 
-  @IsEmail()
+  @IsNotEmpty({ message: 'Email majburiy maydon' })
+  @IsEmail({}, { message: 'Email formati noto‘g‘ri' })
   email: string;
 
-  @MinLength(6)
+  @IsNotEmpty({ message: 'Parol majburiy maydon' })
+  @MinLength(6, { message: 'Parol kamida 6 ta belgidan iborat bo‘lishi kerak' })
   password: string;
+
+  @IsOptional()
+  @IsIn(['admin', 'teacher', 'student'], { message: 'Role faqat admin, teacher yoki student bo‘lishi mumkin' })
+  role?: 'admin' | 'teacher' | 'student';
 }

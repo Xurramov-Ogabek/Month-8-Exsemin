@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
+
 import { User } from '../users/entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -10,31 +12,68 @@ import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>,
-    private jwtService: JwtService,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async register(dto: RegisterDto) {
-    const password = await bcrypt.hash(dto.password, 10);
-    const user = this.userRepo.create({ ...dto, password });
-    return this.userRepo.save(user);
+    const userExists = await this.userRepo.findOneBy({ email: dto.email });
+    if (userExists) {
+      throw new UnauthorizedException('Bu email bilan foydalanuvchi allaqachon ro‘yxatdan o‘tgan');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+    const user = this.userRepo.create({
+      name: dto.name,
+      email: dto.email,
+      password: hashedPassword,
+      role: dto.role ?? 'student', // admin yaratishda role qo‘shiladi
+    });
+
+    return await this.userRepo.save(user);
   }
 
-  async login(dto: LoginDto, response: any) {
+  async login(dto: LoginDto, res: Response) {
     const user = await this.userRepo.findOneBy({ email: dto.email });
-    if (!user) throw new UnauthorizedException('Email xato');
+    if (!user) throw new UnauthorizedException('Email noto‘g‘ri');
+
     const isMatch = await bcrypt.compare(dto.password, user.password);
-    if (!isMatch) throw new UnauthorizedException('Parol xato');
+    if (!isMatch) throw new UnauthorizedException('Parol noto‘g‘ri');
 
-    const accessToken = this.jwtService.sign({ sub: user.id, role: user.role });
-    const refreshToken = this.jwtService.sign({ sub: user.id }, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN });
+    const accessToken = this.jwtService.sign(
+      { sub: user.id, email: user.email, role: user.role },
+      {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
+    );
 
-    response.cookie('refresh_token', refreshToken, { httpOnly: true });
+    const refreshToken = this.jwtService.sign(
+      { sub: user.id },
+      {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+      },
+    );
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
     return { accessToken };
   }
 
   async refresh(userId: number) {
-    const accessToken = this.jwtService.sign({ sub: userId });
+    const accessToken = this.jwtService.sign(
+      { sub: userId },
+      {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
+    );
     return { accessToken };
   }
 }

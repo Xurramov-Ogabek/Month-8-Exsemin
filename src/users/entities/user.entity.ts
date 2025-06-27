@@ -5,7 +5,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   name: string;
 
   @Column({ unique: true })
@@ -15,5 +15,5 @@ export class User {
   password: string;
 
   @Column({ default: 'student' })
-  role: 'student' | 'admin';
+  role: string; // ✅ yoki enum variant pastda keltirilgan
 }

@@ -4,9 +4,9 @@ services:
     image: postgres:15
     restart: always
     environment:
-      POSTGRES_DB: coursesdb
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD: 2005
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
@@ -20,11 +20,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_HOST: db
+      DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: 5432
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: secret
-      DATABASE_NAME: coursesdb
+      DATABASE_PASSWORD: 2005
+      DATABASE_NAME: postgres
       JWT_SECRET: supersecretkey
       JWT_EXPIRES_IN: 3600s
       JWT_REFRESH_EXPIRES_IN: 7d
