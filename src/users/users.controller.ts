@@ -53,14 +53,14 @@ import { Roles } from '../auth/roles.decorator';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('users')
-@ApiBearerAuth() // Swagger uchun token authentication
+@ApiBearerAuth() 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin') // Faqat admin user qo‘shishi mumkin
+  @Roles('admin') 
   @ApiOperation({ summary: 'Create new user (admin only)' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -68,7 +68,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin') // Faqat admin barcha userlarni ko‘radi
+  @Roles('admin') 
   @ApiOperation({ summary: 'Get all users (admin only)' })
   findAll() {
     return this.usersService.findAll();
@@ -76,7 +76,7 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin') // Faqat admin id orqali userni ko‘radi
+  @Roles('admin') 
   @ApiOperation({ summary: 'Get user by ID (admin only)' })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
@@ -84,7 +84,7 @@ export class UsersController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin') // Faqat admin userni tahrirlashi mumkin
+  @Roles('admin') 
   @ApiOperation({ summary: 'Update user (admin only)' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
@@ -92,7 +92,7 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin') // Faqat admin o‘chirish mumkin
+  @Roles('admin')
   @ApiOperation({ summary: 'Delete user (admin only)' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
