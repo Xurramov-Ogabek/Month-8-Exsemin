@@ -14,7 +14,6 @@ export class EnrollmentService {
   ) {}
 
   async enroll(courseId: number, userId: number) {
-    // Optional: validate existence
     const course = await this.courseRepo.findOneBy({ id: courseId });
     const user = await this.userRepo.findOneBy({ id: userId });
 

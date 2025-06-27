@@ -15,5 +15,5 @@ export class User {
   password: string;
 
   @Column({ default: 'student' })
-  role: string; // ✅ yoki enum variant pastda keltirilgan
+  role: string; 
 }

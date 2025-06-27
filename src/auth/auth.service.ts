@@ -28,7 +28,7 @@ export class AuthService {
       name: dto.name,
       email: dto.email,
       password: hashedPassword,
-      role: dto.role ?? 'student', // admin yaratishda role qo‘shiladi
+      role: dto.role ?? 'student',
     });
 
     return await this.userRepo.save(user);

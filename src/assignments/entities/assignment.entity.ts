@@ -11,7 +11,7 @@ export class Assignment {
   content: string;
 
   @Column({ type: 'int', nullable: true })
-  grade: number | null; // ✅ To'g'rilandi
+  grade: number | null;
 
   @ManyToOne(() => ModuleEntity, { onDelete: 'CASCADE' })
   module: ModuleEntity;

@@ -5,9 +5,9 @@ import { LessonsController } from './lessons.controller';
 import { Lesson } from './entities/lesson.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Lesson])], // 🟢 MUHIM
+  imports: [TypeOrmModule.forFeature([Lesson])], 
   controllers: [LessonsController],
   providers: [LessonsService],
-  exports: [TypeOrmModule], // Agar boshqa joyda kerak bo‘lsa
+  exports: [TypeOrmModule], 
 })
 export class LessonsModule {}

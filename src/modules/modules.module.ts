@@ -5,9 +5,9 @@ import { ModulesController } from './modules.controller';
 import { ModuleEntity } from './entities/module.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ModuleEntity])], // 🟢 Entity bilan bog‘landi
+  imports: [TypeOrmModule.forFeature([ModuleEntity])], 
   controllers: [ModulesController],
   providers: [ModulesService],
-  exports: [TypeOrmModule], // 🟢 Boshqa modullarda ishlatish uchun export qilyapti
+  exports: [TypeOrmModule],
 })
 export class ModulesModule {}

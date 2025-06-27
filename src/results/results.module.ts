@@ -4,12 +4,12 @@ import { ResultsService } from './results.service';
 import { ResultsController } from './results.controller';
 import { Assignment } from '../assignments/entities/assignment.entity';
 import { User } from '../users/entities/user.entity';
-import { AuthModule } from '../auth/auth.module'; // ✅ MUHIM QO‘SHIMCHA
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Assignment, User]),
-    AuthModule, // ✅ JwtService uchun shart
+    AuthModule, 
   ],
   controllers: [ResultsController],
   providers: [ResultsService],

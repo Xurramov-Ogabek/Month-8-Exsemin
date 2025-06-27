@@ -5,12 +5,12 @@ import { EnrollmentController } from './enrollment.controller';
 import { Enrollment } from './entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
-import { AuthModule } from '../auth/auth.module'; // ✅ JwtService uchun kerak
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Enrollment, User, Course]),
-    AuthModule, // ✅ JwtAuthGuard ishlashi uchun muhim
+    AuthModule, 
   ],
   controllers: [EnrollmentController],
   providers: [EnrollmentService],

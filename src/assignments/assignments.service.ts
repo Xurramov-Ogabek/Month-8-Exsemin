@@ -28,7 +28,7 @@ export class AssignmentsService {
 
     const assignment = this.repo.create({
       content: dto.content,
-      grade: null, // Eslatma: Assignment entity’da grade: number | null bo‘lishi shart
+      grade: null,
       module: { id: moduleId } as ModuleEntity,
       student: { id: userId } as User,
     });
