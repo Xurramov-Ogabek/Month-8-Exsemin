@@ -16,4 +16,5 @@ export class Course {
   @Column() category: string;
 
   @Column() level: string;
+  modules: any;
 }
