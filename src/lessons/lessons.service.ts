@@ -16,14 +16,12 @@ export class LessonsService {
     private readonly moduleRepo: Repository<ModuleEntity>,
   ) {}
 
-  // 1. GET - Find all lessons by module
   async findByModule(moduleId: number) {
     return this.lessonRepo.find({
       where: { module: { id: moduleId } },
     });
   }
 
-  // 2. POST - Create new lesson
   async create(moduleId: number, dto: CreateLessonDto) {
     const module = await this.moduleRepo.findOne({
       where: { id: moduleId },
@@ -34,7 +32,6 @@ export class LessonsService {
     return this.lessonRepo.save(lesson);
   }
 
-  // 3. PUT - Update lesson
   async update(moduleId: number, lessonId: number, dto: UpdateLessonDto) {
     const lesson = await this.lessonRepo.findOne({
       where: { id: lessonId, module: { id: moduleId } },
@@ -45,7 +42,6 @@ export class LessonsService {
     return this.lessonRepo.save(lesson);
   }
 
-  // 4. DELETE - Delete lesson
   async delete(moduleId: number, lessonId: number) {
     const lesson = await this.lessonRepo.findOne({
       where: { id: lessonId, module: { id: moduleId } },
