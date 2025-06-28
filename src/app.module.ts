@@ -21,7 +21,6 @@ import { ResultsModule } from './results/results.module';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      // 🔥 Hamma *.entity.ts fayllarni avtomatik tanish uchun:
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
