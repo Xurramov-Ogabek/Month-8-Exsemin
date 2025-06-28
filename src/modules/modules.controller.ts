@@ -17,19 +17,17 @@ import { Request } from 'express';
 export class ModulesController {
   constructor(private readonly service: ModulesService) {}
 
-  // 🔍 Kursga tegishli modullarni olish
   @Get()
   findByCourse(@Param('courseId', ParseIntPipe) courseId: number) {
     return this.service.findByCourse(courseId);
   }
 
-  // ➕ Yangi modul yaratish (faqat tokenli foydalanuvchiga)
   @UseGuards(JwtAuthGuard)
   @Post()
   createModule(
     @Param('courseId', ParseIntPipe) courseId: number,
     @Body() dto: CreateModuleDto,
-    @Req() req: Request, // ✅ typing: express.Request
+    @Req() req: Request, 
   ) {
     return this.service.create(courseId, dto, req.user);
   }

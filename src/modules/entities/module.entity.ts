@@ -28,7 +28,6 @@ export class ModuleEntity {
   })
   lessons: Lesson[];
 
-  // ➕ Optional: modulga biror topshiriq bog‘langan bo‘lishi mumkin
   @OneToOne(() => Assignment, (assignment) => assignment.module, {
     cascade: true,
     nullable: true,
